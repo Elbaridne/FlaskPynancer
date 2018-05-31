@@ -1,0 +1,17 @@
+{% extends "layout.html" %}
+{% block body %}
+  <h2>Register</h2>
+  {% if form.errors %}<p class=error><strong>Your form contains errors.</strong>{% endif %}
+  <form action="{{ url_for('register') }}" method=post>
+    {{ form.hidden_tag() }}
+    <dl>
+        <dt>{{ form.username.label }}
+      <dd>{{ form.username }}
+      <dt>{{ form.password.label }}
+      <dd>{{ form.password }}
+        <dt>{{ form.email.label }}
+        <dd>{{ form.email }}
+      <dt>{{ form.submit }}
+    </dl>
+  </form>
+{% endblock %}

@@ -1,0 +1,38 @@
+{#{% extends "layout.html" %}#}
+
+{#
+
+<script src="https://gist.github.com/hatdropper1977/a8d9cddb02b0eb6bc074.js"></script>
+
+{% block content %}
+  <div class="container">
+  <h3>Please answer this very important essay</h3>
+  <p>If you don't it'll go on your permanent record!.</p>
+<hr>
+{{ wtf.quick_form(form) }}
+<hr>
+<p>Copyright 2017 <a href="http://www.freshlex.com">Freshlex, LLC</a></p>
+</div>
+{% endblock %}#}
+{% extends "layout.html" %}
+{% block body %}
+    <div class="container"><div class="col-md-6 mx-auto">
+    <div class="jumbotron rounded">
+    <h2>Login</h2>
+    {% for message in form.errors %}
+        {{ "Please, complete your " + message  }}
+    {%  endfor %}
+  <form action="{{ url_for('login') }}" method=post>
+    {{ form.hidden_tag() }}
+    <dl>
+        <dt>{{ form.username.label }}
+      <dd>{{ form.username }}
+      <dt>{{ form.password.label }}
+      <dd>{{ form.password }}
+      <dt class="mr-auto">{{ form.submit }}
+    </dl>
+  </form>
+    </div>
+    </div>
+    </div>
+{% endblock %}

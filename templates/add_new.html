@@ -1,0 +1,24 @@
+{% extends "layout.html" %}
+{% block body %}
+    <div class="container"><div class="col-md-6 mx-auto">
+    <div class="jumbotron rounded">
+    <h2>Add new entry to this month</h2>
+    {% for message in form.errors %}
+        {{ "Please, complete your " + message  }}
+    {%  endfor %}
+  <form action="{{ url_for('add_hobby') }}" method=post>
+    {{ form.hidden_tag() }}
+    <dl>
+        <dt><h3>{{ form.add_type.label }}</h3>
+        <dd><h2>{{ form.add_type }}</h2>
+        <dt><h3>{{ form.add_name.label }}</h3>
+        <dd><h2>{{ form.add_name }}</h2>
+        <dt><h3>{{ form.add_cost.label }}</h3>
+        <dd><h2>{{ form.add_cost }}</h2>
+        <dt class="mr-auto"><button{{ form.submit }}
+    </dl>
+  </form>
+    </div>
+    </div>
+    </div>
+{% endblock %}

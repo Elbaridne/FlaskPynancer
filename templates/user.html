@@ -1,0 +1,152 @@
+{% extends "layout.html" %}
+{% block body %}
+    <div class="container rounded" style="padding-top: 18px; margin-top: 8px">
+        <h3 class="text-right text-white">Welcome back, {{ current_user.username }}</h3>
+        <div class="row bg-light rounded" style="padding-top: 18px">
+        <div class="col-sm-6"><h1 class="text-center">Summary</h1>
+
+
+            <h3 class="text-center" style="color: #1f76b0">Calculation {{ income - costs //1 }} $</h3>
+
+            <canvas id="chart" width="600" height="400"></canvas>
+
+
+        </div>
+        <div class="col-sm-6" style="padding-right: 18px; padding-top: 28px">
+        <!-- Income section -->
+        <div  id="accordion">
+            <div class="card bg-light mb-3">
+                <div class="card-header" id="income">
+                    <h5 class="mb-0">
+                <button class="btn btn-info collapsed" data-toggle="collapse" data-target="#incomeBut"  aria-expanded="false" aria-controls="incomeBut">
+                 Income
+                </button>
+                <a class="float-right">{{ income }}</a>
+                <div id="incomeBut" class="collapse" aria-labelledby="headingOne" data-parent="#accordion">
+                    <div class="card-body">
+                        {% for elem in income_key %}
+                    <div class="list-group" style="padding-top: 9px;padding-bottom: 9px">
+                        <a href="#" class="list-group-item bg-light text-dark list-group-item-action active">{{ elem.d_name }} <span class="text-right">{{ elem.d_cost }}</span></a>
+
+                    </div>
+                            {% endfor %}
+                    <button type="button link" class="btn btn-outline-info" onclick="window.location.href='/user/add'">Add new</button>
+                    </div>
+                </div>
+
+              </h5>
+                </div>
+
+
+            </div>
+    <hr class="my-4">
+            <!-- Costs class -->
+
+            <!-- Header of each cost -->
+            {% for key, value in user_data.items() %}
+                <div class="card text-white bg-light mb-3">
+                    <div class="card-header" id="headingOne">
+                        <h5 class="mb-0">
+                              <button class="btn btn-warning collapsed" data-toggle="collapse" data-target="#collapse{{ loop.index }}"  aria-expanded="false" aria-controls="collapse{{ loop.index }}">
+                                 {{ key }}
+                              </button>
+                             <a class="float-right text-dark" >{{ group_cost[key]}}</a>
+                        </h5>
+
+                    </div> <!-- Body of each cost, we populate with the List info here -->
+                <!-- TODO Coger la id de cada collapse para pasarla al modal -->
+                    <div id="collapse{{ loop.index }}" class="collapse" aria-labelledby="headingOne" data-parent="#accordion">
+                        <div class="card-body">
+                            {% for elem in value %}
+                                 <div class="list-group" style="padding-top: 9px;padding-bottom: 9px">
+                                    <a href="#" class="list-group-item  bg-light list-group-item-action active text-dark">{{ elem.d_name }} {{ elem.d_cost }}</a>
+
+                                    <!-- Trigger the modal with a button -->
+
+                            </div>
+                            {% endfor %}
+                            <button type="button link" class="btn btn-outline-info " data-toggle="modal" data-target="#myModal">Add new</button>
+                        </div>
+                     </div>
+                </div>
+
+
+
+    {% endfor %}
+        </div>
+
+
+    <script>
+    $(document).ready(function() {
+        // bar chart data
+        var barData = {
+            labels: [{% for key,value in group_cost.items() %}  "{{ key }}", {% endfor %}],
+            datasets: [
+                {
+                    backgroundColor: [ '#EBE7D8', '#95AD7E', '#7EAAAD', '#705B48', '#C77140' ],
+                    data: [{% for key,value in group_cost.items() %}  {{ value }}, {% endfor %}]
+                }
+            ]
+        }
+
+        // get bar chart canvas
+        var mychart = document.getElementById("chart").getContext("2d");
+
+        steps = 10
+        max = 10
+        // draw bar chart
+        new Chart(mychart, {
+            type: 'pie',
+            data: barData,
+            scaleOverride: true,
+            scaleSteps: steps,
+            scaleStepWidth: Math.ceil(max / steps),
+            scaleStartValue: 0,
+            scaleShowVerticalLines: true,
+            scaleShowGridLines: true,
+            barShowStroke: true,
+            scaleShowLabels: true
+
+        });
+
+    });
+</script>
+<!-- Modal -->
+<div id="myModal" class="modal fade" role="dialog">
+  <div class="modal-dialog">
+
+    <!-- Modal content-->
+    <div class="modal-content">
+      <div class="modal-header">
+            <h4 class="modal-title text-primary">Pyggi Bank</h4>
+            <button type="button" class="close" data-dismiss="modal">&times;</button>
+      </div>
+
+      <div class="modal-body text-dark">
+         <h2>Add new entry to this month</h2>
+    {% for message in form.errors %}
+        {{ "Please, complete your " + message  }}
+    {%  endfor %}
+  <form action="{{ url_for('add_hobby') }}" method=post>
+    {{ form.hidden_tag() }}
+    <dl>
+        <dt>{{ form.add_type.label }}
+      <dd>{{ form.add_type }}
+        <dt>{{ form.add_name.label }}
+      <dd>{{ form.add_name }}
+        <dt>{{ form.add_cost.label }}
+      <dd>{{ form.add_cost }}
+        <dt class="mr-auto"><button class="btn btn-info collapsed">{{ form.submit }}</button>
+    </dl>
+  </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button link" class="btn btn-outline-danger" data-dismiss="modal">Close. </button>
+      </div>
+    </div>
+
+  </div>
+</div>
+{% endblock %}
+
+

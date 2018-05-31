@@ -1,0 +1,36 @@
+{% extends "layout.html" %}
+{% block body %}
+    <div class="container" style="margin-top: 4vw">
+
+    <div class="jumbotron rounded" style="padding: 28px; margin: 18px">
+
+
+          <div class="col-md-offset-12">
+              <h1 class="display-3">Happiness comes from within.. </h1> <h3 class="text-muted text-right">(a Piggy bank)</h3>
+
+              <p class="text-justify">Python based web application built with saving money and keeping it simple and accesible in mind.
+
+              <p class="mb-0">Features:</p>
+              <ul><li>Monthly based tracking platform of your daily expenses, suscription costs, etc</li>
+                  <li>Get statistics of your money spending and save it recognizing patterns</li>
+                  <li>Open source: Free to grab a copy for yourself and modify it or help with development! </li></ul></p> <p class="text-justify"><b>Assisted by Flask and Bootstrap.</b></p>
+              <p class="float-right"><img src="{{ url_for('static', filename='images/piggy.png') }}" style="height: 100px; width: 110px; margin-bottom: 18px; margin-left: 18px"></p>
+              <a href="http://github.com/Elbaridne">Source code in GitHub</a>
+              <blockquote class="blockquote text-right">
+            <p class="mb-0">Don't let your avarice constrict poor Pyggi!</p>
+            <footer class="blockquote-footer">The virtuous <cite title="Source Title">S</cite></footer>
+</blockquote>
+
+
+
+      </div>
+
+    </div></div>
+{% endblock %}
+
+{#<b>Don't let your avarice constrict poor Pyggi!</b>
+
+In Pyggi Bank we are developing a richful webapp with one purpose in mind. Working prototype of a web application built in Python to keep track of your money, savings, a monthly overview of your main
+              hobbies, your monthly costs and a <b>piggy</b> bank.
+
+#}
